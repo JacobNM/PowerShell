@@ -5,7 +5,7 @@ $inner=@(1..100)
 
 $counter=1
 foreach($x in $outer){
-    Write-Progress -Id 1 -Activity "Loop" -Status "$(($counter/$outer.Count)*100)% Complete" -PercentComplete
+    Write-Progress -Id 1 -Activity "Progress" -Status "$(($counter/$outer.Count)*100)% Complete" -PercentComplete $(($counter/$outer.Count)*100)
     $counter++
     Start-Sleep -Milliseconds 100
 }
