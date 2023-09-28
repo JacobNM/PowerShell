@@ -1,5 +1,13 @@
 #Create a new AD user
-New-ADUser -Name "test" -GivenName "test" -Surname "test" -UserPrincipalName "test@domain.com" -SamAccountName "test" -Office "test" -EmployeeID "00000000"
+#New-ADUser -Name "test" -GivenName "test" -Surname "test" -UserPrincipalName "test@domain.com" -SamAccountName "test" -Office "test" -EmployeeID "00000000"
+
+# Used to find an AD user based on their identity and provide all available properties for the user
+#Get-ADUser -identity "george" -Server "hhcc.on.ca" -properties *
+
+# Used to find all users on a particular AD server
+#Get-ADUser -Filter {EmployeeID -like "*"} -Server "hhcc.on.ca"
+
+
 
 # Used to remove AD users by their name (First and last)
 #Remove-ADUser "Jacob Test"
