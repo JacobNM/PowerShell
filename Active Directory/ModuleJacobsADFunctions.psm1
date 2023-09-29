@@ -1,19 +1,8 @@
-
 # Can be used to find an AD member using their first name as the filter
 function Find-ADUser {
     $ADUserFirstName = Read-Host -Prompt "Please provide the first name of the Active Directory user you are searching for"
     "`nYour results are being produced"
-    $AdList=Get-ADUser -Filter "givenname -like '$ADUserFirstName'" -Properties "Description"  
-    $TotalItems=$AdList.count
-    $AdCurrentUser=0
-    $PercentComplete=0
-    foreach ($AdUser in $AdList){
-        Write-Progress -Activity "Checking AD for users" -Status "$PercentComplete% Complete:" -PercentComplete $PercentComplete
-        $Name = $AdList.Name
-        Get-ADUser -Name $Name
-        $AdCurrentUser ++
-        $PercentComplete = [int] (($AdCurrentUser / $TotalItems) * 100) 
-    }
+    Get-ADUser -Filter "givenname -like '$ADUserFirstName'" -Properties "Description"  
 
 # User has option to enter their own filter option with the associated info if they require more searching
         $UserSearchFilterPrompt = Read-Host -Prompt "`nIs there a different filter you would like to use?"
