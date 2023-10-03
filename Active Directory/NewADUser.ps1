@@ -2,7 +2,7 @@
 
 "`nWelcome to the Active Directory - New User setup"
 "`nThis script is designed to present you with the most common attribute fields entered for new hires.`n
-If no information is necessary for an attribute field, press enter to proceed to the next field.`n
+If no information is necessary for an attribute field, type 'N/A' to proceed to the next field.`n
 Please enter the necessary information for the following fields:`n"
 
 # User fills out Active directory attribute fields at each prompt
