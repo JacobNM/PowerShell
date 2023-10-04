@@ -17,7 +17,7 @@ foreach($x in $outer){
     Start-Sleep -Milliseconds 100
                     }
     }
-    function Find-ADUser {
+   function Find-ADUser {
         $ADUserFirstName = Read-Host -Prompt "Please provide the first name of the Active Directory user you are searching for"
         "`nYour results are being produced"
         Get-ADUser -Filter "givenname -like '$ADUserFirstName'" -Properties "Description"
@@ -25,8 +25,9 @@ foreach($x in $outer){
         $UserSearchFilterPrompt = Read-Host -Prompt "`nIs there a different filter you would like to use?"
 
         if ($UserSearchFilterPrompt -eq "yes" -or "y") {
-            $ADUserFilter = Read-Host -Prompt "`nPlease enter the name of the filter type you would like to use" ; 
-            $ADUserFilterInfo = Read-Host -Prompt "Type the information for your selected filter" ; "`n"
+            $ADUserFilter = Read-Host -Prompt "`nPlease enter the name of the filter type you would like to use (E.g. surname, department, samaccountname)" ; 
+            $ADUserFilterInfo = Read-Host -Prompt "Type the information for your selected filter" ;
+            "`nYour results are being produced`n"
             Get-ADUser -Filter {$ADUserFilter -like $ADUserFilterInfo} -Properties "Description"
             "`nSearch complete! Hope this was helpful."
             }
@@ -34,7 +35,7 @@ foreach($x in $outer){
         elseif ($UserSearchFilterPrompt -eq "no" -or "n"){
             Write-Host "`nSearch complete! Hope this was helpful."
             }
-    }
+    } 
 
 # Script is designed to create a new Active Directory (AD) user, including common attribute fields found in AD
     function Add-NewADUser {
