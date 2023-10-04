@@ -1,4 +1,4 @@
-# In order to gain access to custom modules/functions/Scripts you create, environment must be configured in PowerShell
+# In order to gain access to custom modules/functions/Scripts you create, environment must be configured on profile in PowerShell
 # Examples below:
     # $env:path += ";C:\Users\jmartin\Documents\WindowsPowerShell\Modules"
     # $env:path += ";C:\Users\jmartin\Documents\WindowsPowerShell\Powershell"
