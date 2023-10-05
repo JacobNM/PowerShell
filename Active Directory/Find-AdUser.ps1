@@ -10,9 +10,9 @@ function Find-ADUser {
             ${ADUserFilterInfo} = Read-Host -Prompt "Type the information for your selected filter"
             "`nYour results are being produced`n"
             Get-ADUser -Filter {$ADUserFilter -like $ADUserFilterInfo} -Properties "Description"
-            "`nSearch complete! Hope this was helpful."
+            "`nSearch complete."
             } 
             elseif (($UserSearchFilterPrompt) -eq "no" -or ($UserSearchFilterPrompt) -eq "n") {
-            Write-Host "`nSearch complete! Hope this was helpful."
+            Write-Host "`nSearch complete."
             }
     }
