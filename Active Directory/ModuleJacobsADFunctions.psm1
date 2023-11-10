@@ -22,7 +22,8 @@ foreach($x in $outer){
         "`nYour results are being produced"
         Get-ADUser -Filter {givenname -eq $ADUserFirstName} -Properties "Department","Description","telephoneNumber","OfficePhone" | 
         Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
-            @{Name="First Name";Expression = {$_.givenname}},@{Name = "Last Name"; Expression = {$_.surname}} | 
+            @{Name="First Name";Expression = {$_.givenname}},
+            @{Name = "Last Name"; Expression = {$_.surname}} | 
         Format-List "First Name","Last Name",Description,Department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
         
         # User has option to enter another first name if they require more searching
@@ -33,7 +34,8 @@ foreach($x in $outer){
             ${ADUserFirstNameNextSearch} = Read-Host -Prompt "Please provide the first name of the Active Directory user you are searching for"
             Get-ADUser -Filter {givenname -eq $ADUserFirstNameNextSearch} -Properties "Department","Description","telephoneNumber","OfficePhone" |
             Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
-                @{Name="First Name";Expression = {$_.givenname}},@{Name = "Last Name"; Expression = {$_.surname}} | 
+                @{Name="First Name";Expression = {$_.givenname}},
+                @{Name = "Last Name"; Expression = {$_.surname}} | 
             Format-List "First Name","Last Name",Description,department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
             ${ADUserFirstNameRepeatSearch} = Read-Host -Prompt "Would you like to search another user first name?";
         }
@@ -49,7 +51,8 @@ foreach($x in $outer){
             "`nYour results are being produced`n"     
             Get-ADUser -Filter {$ADUserFilter -eq $ADUserFilterInfo} -Properties "Department","Description","telephoneNumber","OfficePhone" |
             Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
-            @{Name="First Name";Expression = {$_.givenname}},@{Name = "Last Name"; Expression = {$_.surname}}| 
+                @{Name="First Name";Expression = {$_.givenname}},
+                @{Name = "Last Name"; Expression = {$_.surname}}| 
             Format-List "First Name","Last Name",Description,Department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
             "Search complete.`n"
             #Gives user the opportunity to continue searching using a custom filter
