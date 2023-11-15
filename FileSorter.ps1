@@ -22,7 +22,7 @@ function Get-FolderStats ([string]$path){
     $files = Get-ChildItem $path -Recurse | Where-Object {!$_.PSIsContainer}
     $TotalFiles = $files | Measure-Object -Property Length -Sum
     $FileStats = "" | Select-Object path,count,
-                            @{Name = "Size (GB)"; Expression = {[math]::Round($TotalFiles.sum/1gb,2)}}
+                            @{Name = "Size (MB)"; Expression = {[math]::Round($TotalFiles.sum/1mb,2)}}
         $FileStats.path = $path
         $FileStats.count = $TotalFiles.Count
         return $FileStats
@@ -62,5 +62,10 @@ foreach ($file in $files){
     Copy-Item $file.FullName $ExtDestinationDir
 }
 # Notifies user of successful file copy and provides brief info on the transfer.
-"`nFiles copied successfully."
 "`n"; Get-FolderStats $destination; "`n"
+
+$dirs = Get-ChildItem $destination | Where-Object {$_.PSIsContainer}
+foreach ($dir in $dirs){
+    Get-FolderStats $dir.FullName
+}
+"`nFiles copied successfully."
