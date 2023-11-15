@@ -14,3 +14,15 @@ $Dogs = New-Object -TypeName psobject -Property @{"Dog Names"= "Boomer","Cliffor
                                                  } | Format-List 
 $Dogs
 
+#Good example of implementing a hash table
+function Get-FolderStats ([string]$path){
+   $files = Get-ChildItem $path -Recurse | Where-Object {!$_.PSIsContainer}
+   $TotalFiles = $files | Measure-Object -Property Length -Sum
+   $FileStats = "" | Select-Object path,count,
+                                @{Name = "Size (GB)"; Expression = {[math]::Round($TotalFiles.sum/1gb,2)}}
+                             #Hash table example ^
+       $FileStats.path = $path
+       $FileStats.count = $TotalFiles.Count
+       return $FileStats
+}
+Get-FolderStats "C:\Users\jmartin\Downloads"
