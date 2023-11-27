@@ -39,3 +39,7 @@ Import-Csv "C:\Users\jmartin\users.csv" | ForEach-Object {Remove-ADUser -Identit
 
 # Used to remove multiple users from active directory using a CSV file; will not ask for confirmation to save time
 Import-Csv "C:\users\jmartin\users.csv" | ForEach-Object {Remove-ADUser -Identity $_.SamAccountName -Confirm:$false}
+
+# Used to copy a file from a source location to a destination location
+# Capable of changing file extension type
+Copy-Item 'C:\users\jmartin\Documents\AD users Example.txt' -Destination 'C:\users\jmartin\Documents\CSVs\AD users Example.csv'
