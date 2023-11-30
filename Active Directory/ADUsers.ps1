@@ -43,3 +43,17 @@ Import-Csv "C:\users\jmartin\users.csv" | ForEach-Object {Remove-ADUser -Identit
 # Used to copy a file from a source location to a destination location
 # Capable of changing file extension type
 Copy-Item 'C:\users\jmartin\Documents\AD users Example.txt' -Destination 'C:\users\jmartin\Documents\CSVs\AD users Example.csv'
+
+# Example for adding values to uncommon attribute fields for users
+# Second cmd pulls up configured user and attribute affected
+# Third cmd can be used to replace values in specified attribute fields
+# Fourth cmd will clear values from specified attribute field
+New-ADUser JTest -Description "Human Resources" -OtherAttributes @{carLicense='BFDW-1R8'}
+Get-ADUser JTest -Properties 'carLicense'
+Set-ADUser JTest -Replace @{carLicense = 'Chik-Mgnet'}
+Set-ADUser JTest -Clear 'carLicense'
+
+# Used to unlock/lock/remove user accounts
+Read-Host "Enter the user account to unlock" | Unlock-ADAccount
+Read-Host "Enter the user account to disable" | Disable-ADAccount
+Read-Host "Enter the user account to delete" | Remove-ADUser
