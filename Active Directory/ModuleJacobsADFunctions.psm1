@@ -20,28 +20,34 @@ foreach($x in $outer){
     function Find-ADUser {
         ${ADUserFirstName} = Read-Host -Prompt "`nPlease provide the first name of the Active Directory user you are searching for"
         "`nYour results are being produced"
-        Get-ADUser -Filter {givenname -eq $ADUserFirstName} -Properties "Department","Description","telephoneNumber","OfficePhone" | 
+        $ADSearchResults = Get-ADUser -Filter {givenname -eq $ADUserFirstName} -Properties "Department","Description","telephoneNumber","OfficePhone" | 
         Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
             @{Name="First Name";Expression = {$_.givenname}},
             @{Name = "Last Name"; Expression = {$_.surname}} | 
         Format-List "First Name","Last Name",Description,Department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
-        
+        $ADSearchResults
+            if ($ADSearchResults.Count -le 0) {
+            Write-Host "`nNo users found."
+            }
         "`nSearch complete."
-
+    
         # User has option to enter another first name if they require more searching
         ${ADUserFirstNameRepeatSearch} = Read-Host -Prompt "Would you like to search another user first name?`n[Y] Yes [N] No"
         
         #User will have the opportunity to continue searching by first name so long as they continue to answer "yes" when prompted
         while (($ADUserFirstNameRepeatSearch) -eq "yes" -or ($ADUserFirstNameRepeatSearch) -eq "y" ) {
             ${ADUserFirstNameNextSearch} = Read-Host -Prompt "`nPlease provide the first name of the Active Directory user you are searching for"
-            Get-ADUser -Filter {givenname -eq $ADUserFirstNameNextSearch} -Properties "Department","Description","telephoneNumber","OfficePhone" |
+            $ADSearchResultsLoop = Get-ADUser -Filter {givenname -eq $ADUserFirstNameNextSearch} -Properties "Department","Description","telephoneNumber","OfficePhone" |
             Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
                 @{Name="First Name";Expression = {$_.givenname}},
                 @{Name = "Last Name"; Expression = {$_.surname}} | 
             Format-List "First Name","Last Name",Description,department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
-            
+            $ADSearchResultsLoop
+                if ($ADSearchResultsLoop.Count -le 0) {
+                Write-Host "`nNo users found."
+                }
             "`nSearch complete."
-
+    
             ${ADUserFirstNameRepeatSearch} = Read-Host -Prompt "Would you like to search another user first name?`n[Y] Yes [N] No";
         }
             
@@ -53,13 +59,18 @@ foreach($x in $outer){
         while (($UserSearchFilterPrompt) -eq "yes" -or ($UserSearchFilterPrompt) -eq "y") {
             ${ADUserFilter} = Read-Host -Prompt "`nPlease enter the name of the filter type you would like to use (E.g. surname, department, samaccountname)" 
             ${ADUserFilterInfo} = Read-Host -Prompt "Type the information for your selected filter"
-            "`nYour results are being produced`n"     
-            Get-ADUser -Filter {$ADUserFilter -eq $ADUserFilterInfo} -Properties "Department","Description","telephoneNumber","OfficePhone" |
+            "`nYour results are being produced"     
+           $ADFilterSearchResultsLoop = Get-ADUser -Filter {$ADUserFilter -eq $ADUserFilterInfo} -Properties "Department","Description","telephoneNumber","OfficePhone" |
             Select-Object department,Description,distinguishedname,enabled,objectclass,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,
                 @{Name="First Name";Expression = {$_.givenname}},
                 @{Name = "Last Name"; Expression = {$_.surname}}| 
             Format-List "First Name","Last Name",Description,Department,OfficePhone,telephoneNumber,samaccountname,UserPrincipalName,distinguishedname,objectclass,enabled
-            "Search complete.`n"
+            $ADFilterSearchResultsLoop
+            if ($ADFilterSearchResultsLoop.Count -le 0) {
+                Write-Host "`nNo users found."
+                }        
+            "`nSearch complete.`n"
+                    
             #Gives user the opportunity to continue searching using a custom filter
             ${UserSearchFilterPrompt} = Read-Host -Prompt "Would you like to search another filter type?`n[Y] Yes [N] No"
             }
@@ -67,7 +78,6 @@ foreach($x in $outer){
         if (($UserSearchFilterPrompt) -eq "no" -or ($UserSearchFilterPrompt) -eq "n") {
             Write-Host "`nSearch complete."
             }
-                    
        }
 
 # Script is designed to create a new Active Directory (AD) user, including common attribute fields found in AD
